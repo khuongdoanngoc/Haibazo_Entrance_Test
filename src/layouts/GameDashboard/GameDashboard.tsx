@@ -72,10 +72,6 @@ export default function GameDashboard() {
         };
     }, [isAutoPlay, currentTarget, isPlaying]);
 
-    useEffect(() => {
-        console.log(targets);
-    }, [targets]);
-
     const intervalRef = useRef<any | null>(null);
 
     const handleTargetClick = (value: number) => {
@@ -138,6 +134,7 @@ export default function GameDashboard() {
                 />
                 <GameBoard
                     targets={targets}
+                    isPlaying={isPlaying}
                     currentTarget={currentTarget}
                     onClick={handleTargetClick}
                 />

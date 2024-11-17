@@ -12,12 +12,15 @@ interface ITarget {
 interface IGameBoardProps {
     targets: ITarget[];
     currentTarget: number;
+    isPlaying: boolean;
+
     onClick: (value: number) => void;
 }
 
 export default function GameBoard({
     targets,
     currentTarget,
+    isPlaying,
     onClick,
 }: IGameBoardProps) {
     const { points } = usePoints();
@@ -40,7 +43,11 @@ export default function GameBoard({
                                     : 1,
                         }}
                         key={index}
-                        onClick={() => onClick(target.value)}>
+                        onClick={() => {
+                            if (isPlaying) {
+                                onClick(target.value);
+                            }
+                        }}>
                         {target.value}
                         {target.countDown < 3 && target.countDown > 0 && (
                             <span>{formatTime(target.countDown)}</span>
