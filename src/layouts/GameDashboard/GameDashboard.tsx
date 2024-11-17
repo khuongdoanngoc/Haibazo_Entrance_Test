@@ -28,6 +28,15 @@ export default function GameDashboard() {
         setIsAutoPlay(false);
         setCurrentTarget(1);
         setTitle("LET'S PLAY");
+
+        // Clear tất cả intervals
+        for (let i = 1; i < 3000; i++) {
+            window.clearInterval(i);
+        }
+        // Clear tất cả timeouts
+        for (let i = 1; i < 3000; i++) {
+            window.clearTimeout(i);
+        }
     };
 
     console.log("test re-render");
