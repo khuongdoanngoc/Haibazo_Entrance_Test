@@ -1,3 +1,4 @@
+import { usePoints } from "../../context/PointsContext";
 import { formatTime } from "../../utils/formatTime";
 
 interface ITarget {
@@ -19,6 +20,8 @@ export default function GameBoard({
     currentTarget,
     onClick,
 }: IGameBoardProps) {
+    const { points } = usePoints();
+
     return (
         <div className="flex flex-col w-full h-full gap-2">
             <div className="w-full h-full border-2 rounded-md relative">
@@ -47,7 +50,9 @@ export default function GameBoard({
                     </div>
                 ))}
             </div>
-            <span>Next: {currentTarget}</span>
+            <span>
+                Next: {currentTarget <= points ? currentTarget : points}
+            </span>
         </div>
     );
 }

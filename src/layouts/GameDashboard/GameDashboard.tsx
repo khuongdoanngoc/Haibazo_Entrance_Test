@@ -30,8 +30,6 @@ export default function GameDashboard() {
         setTitle("LET'S PLAY");
     };
 
-    console.log("test re-render");
-
     // configs for timer
     useEffect(() => {
         let timer: any;
@@ -49,6 +47,7 @@ export default function GameDashboard() {
             setCurrentTarget(1);
         }
     }, [isPlaying]);
+
 
     const handleAutoPlay = (value: boolean) => {
         setIsAutoPlay(value);
