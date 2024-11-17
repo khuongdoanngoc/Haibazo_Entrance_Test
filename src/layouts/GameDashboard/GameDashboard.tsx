@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GameHeader from "../../components/GameHeader/GameHeader";
 import { GameBoard } from "../../components/GameBoard";
 import { usePoints } from "../../context/PointsContext";
@@ -8,7 +8,7 @@ interface ITarget {
     value: number;
     top: number;
     left: number;
-    complete: boolean;
+    clicked: boolean;
     countDown: number;
 }
 
@@ -28,6 +28,10 @@ export default function GameDashboard() {
         setIsAutoPlay(false);
         setCurrentTarget(1);
         setTitle("LET'S PLAY");
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
     };
 
     // configs for timer
@@ -47,7 +51,6 @@ export default function GameDashboard() {
             setCurrentTarget(1);
         }
     }, [isPlaying]);
-
 
     const handleAutoPlay = (value: boolean) => {
         setIsAutoPlay(value);
@@ -69,7 +72,18 @@ export default function GameDashboard() {
         };
     }, [isAutoPlay, currentTarget, isPlaying]);
 
+    useEffect(() => {
+        console.log(targets);
+    }, [targets]);
+
+    const intervalRef = useRef<any | null>(null);
+
     const handleTargetClick = (value: number) => {
+        setTargets((prevTargets) =>
+            prevTargets.map((target) =>
+                target.value === value ? { ...target, clicked: true } : target
+            )
+        );
         if (value === currentTarget) {
             setCurrentTarget(currentTarget + 1);
             if (value === points) {
@@ -81,7 +95,9 @@ export default function GameDashboard() {
             const intervalId = setInterval(() => {
                 setTargets((prevTargets) => {
                     let updatedTargets = prevTargets.map((target) =>
-                        target.value === value && target.countDown > 0
+                        target.value === value &&
+                        target.countDown > 0 &&
+                        isPlaying
                             ? { ...target, countDown: target.countDown - 0.1 }
                             : target
                     );
@@ -89,22 +105,23 @@ export default function GameDashboard() {
                         updatedTargets.find(
                             (target) =>
                                 target.value === value && target.countDown <= 0
-                        )
+                        ) ||
+                        !isPlaying
                     ) {
-                        updatedTargets = prevTargets.map((target) =>
-                            target.value === value
-                                ? { ...target, complete: true }
-                                : target
-                        );
                         clearInterval(intervalId);
+                        intervalRef.current = null;
                     }
                     return updatedTargets;
                 });
             }, 100);
+            intervalRef.current = intervalId;
         } else {
-            setTitle("GAME OVER");
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
             setIsPlaying(false);
-            setIsAutoPlay(false);
+            setTitle("GAME OVER");
         }
     };
 

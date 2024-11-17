@@ -5,7 +5,7 @@ interface ITarget {
     value: number;
     top: number;
     left: number;
-    complete: boolean;
+    clicked: boolean;
     countDown: number;
 }
 
@@ -27,19 +27,17 @@ export default function GameBoard({
             <div className="w-full h-full border-2 rounded-md relative">
                 {targets.map((target, index) => (
                     <div
-                        className={`absolute text-xs w-9 h-9 rounded-[50%] border border-orange-600 cursor-default text-black flex items-center justify-center flex-col ${
-                            target.complete
-                                ? "hidden"
-                                : target.countDown < 3
-                                ? "bg-red-500 fade-out"
-                                : "bg-white"
-                        }`}
+                        className={`absolute text-xs transition-opacity w-9 h-9 rounded-[50%] border border-orange-600 cursor-default text-black flex items-center justify-center flex-col ${
+                            target.clicked ? "bg-red-500" : "bg-white"
+                        } ${target.countDown <= 0 && "hidden"}`}
                         style={{
                             top: `${target.top}%`,
                             left: `${target.left}%`,
                             zIndex: `${9999 - target.value}`,
                             opacity:
-                                target.countDown > 0 ? target.countDown / 3 : 1,
+                                target.countDown > 0 && target.countDown < 3
+                                    ? target.countDown / 3
+                                    : 1,
                         }}
                         key={index}
                         onClick={() => onClick(target.value)}>
