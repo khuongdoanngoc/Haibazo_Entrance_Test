@@ -1,13 +1,6 @@
 import { usePoints } from "../../context/PointsContext";
 import { formatTime } from "../../utils/formatTime";
-
-interface ITarget {
-    value: number;
-    top: number;
-    left: number;
-    clicked: boolean;
-    countDown: number;
-}
+import type { ITarget } from "../../types/target";
 
 interface IGameBoardProps {
     targets: ITarget[];
@@ -28,7 +21,7 @@ export default function GameBoard({
     return (
         <div className="flex flex-col w-full h-full gap-2">
             <div className="w-full h-full border-2 rounded-md relative">
-                {targets.map((target, index) => (
+                {targets.map((target) => (
                     <div
                         className={`absolute text-xs transition-opacity w-9 h-9 rounded-[50%] border border-orange-600 cursor-default text-black flex items-center justify-center flex-col ${
                             target.clicked ? "bg-red-500" : "bg-white"
@@ -42,7 +35,7 @@ export default function GameBoard({
                                     ? target.countDown / 3
                                     : 1,
                         }}
-                        key={index}
+                        key={target.value}
                         onClick={() => {
                             if (isPlaying) {
                                 onClick(target.value);

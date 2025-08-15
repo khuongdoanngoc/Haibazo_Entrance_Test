@@ -1,50 +1,23 @@
-# React + TypeScript + Vite
+## Clear the Points (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple game where numbered points appear on the board. Your goal is to clear them by clicking in ascending order. After each correct click, a 3-second countdown appears on that point.
 
-Currently, two official plugins are available:
+### Accepted cases
+- **Case 1 — Win (All Cleared)**: Click points strictly in ascending order from 1 up to the entered amount. Each correct click shows a 3s countdown on that point.
+- **Case 2 — Game Over**: Clicking any point out of order immediately ends the game.
+- **Case 3 — Restart mid-game**: Pressing Restart during play resets the state and starts a new game. Points from 1 to the chosen amount appear again.
+- **Case 4 — Auto Play ON**: Turning Auto Play on enables a bot that automatically clicks the correct sequence; no user interaction is needed.
+- **Case 5 — Auto Play OFF mid-run**: Turning Auto Play off while active stops the bot immediately.
+- **Case 6 — Large inputs**: Entering a large number (e.g., 2000) still renders that many points on the game board.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Tech stack
+- **React**: UI framework
+- **Vite**: Build tool and dev server
+- **Tailwind CSS**: Styling
+- **Web APIs**: `setTimeout`, `setInterval`
 
-## Expanding the ESLint configuration
+### Getting started
+- **Install**: `npm install`
+- **Develop**: `npm run dev`
+- **Build**: `npm run build`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
